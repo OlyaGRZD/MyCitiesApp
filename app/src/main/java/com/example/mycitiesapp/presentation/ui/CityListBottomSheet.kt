@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mycitiesapp.domain.model.CityList
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,8 @@ import kotlinx.coroutines.launch
 fun CityListBottomSheet(
     lists: List<CityList>,
     selectedId: Int?,
-    onSelect: (CityList) -> Unit,
+    onSelectClick: (CityList) -> Unit,
+    onFocusChange: (CityList) -> Unit,
     onAddClick: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -68,6 +70,15 @@ fun CityListBottomSheet(
                 pagerState.animateScrollToPage(to)
             }
     }
+
+    LaunchedEffect(pagerState.currentPage) {
+        snapshotFlow { pagerState.currentPage }
+        .filter { page -> page > 0 }
+        .distinctUntilChanged()
+        .collect { page ->
+            extendedLists[page]?.let { onFocusChange(it) }
+            }
+        }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -129,7 +140,8 @@ fun CityListBottomSheet(
                                     if (!isSelected) {
                                         pagerState.animateScrollToPage(page)
                                     } else {
-                                        onSelect(item)
+                                        //onSelect(item)
+                                        onSelectClick(item)
                                     }
                                 }
                             }
@@ -140,26 +152,23 @@ fun CityListBottomSheet(
                                 .clip(CircleShape)
                                 .background(item.color)
                         )
-                        Spacer(Modifier.height(4.dp))
-                        Text(
-                            text = item.shortName,
-                            fontSize = font.sp,
-                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
                     }
                 }
             }
 
             Spacer(Modifier.height(16.dp))
 
-            lists.find { it.id == selectedId }?.let { sel ->
+            val focusedItem = extendedLists.getOrNull(pagerState.currentPage)
+            if (focusedItem != null) {
                 Text(
-                    text = sel.fullName,
+                    text = focusedItem.fullName,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(horizontal = 24.dp)
                 )
             }
 

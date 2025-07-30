@@ -106,7 +106,10 @@ fun MainScreen() {
                             )
                             navController.popBackStack()
                         },
-                        onCancel = { navController.popBackStack() }
+                        onCancel = {
+                            navController.popBackStack()
+                            showSheet = true
+                        }
                     )
                 }
             }
@@ -115,10 +118,13 @@ fun MainScreen() {
                 CityListBottomSheet(
                     lists = cityLists,
                     selectedId = selectedListId,
-                    onSelect = { list ->
+                    onSelectClick = { list ->
                         selectorVM.selectListById(list.id)
                         showSheet = false
-                    },
+                        },
+                    onFocusChange = { list ->
+                        selectorVM.selectListById(list.id)
+                                    },
                     onAddClick = {
                         showSheet = false
                         navController.navigate("add_list")

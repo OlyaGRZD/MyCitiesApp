@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.remember
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.mycitiesapp.domain.model.City
 import com.example.mycitiesapp.presentation.ViewModel.CityListViewModel
@@ -33,37 +34,49 @@ fun CityListScreen(
     }
     var draggedItemIndex by remember { mutableStateOf<Int?>(null) }
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        itemsIndexed(cities, key = { _, city -> city.id }) { index, city ->
-            val isDragging = draggedItemIndex == index
+    Column(modifier = Modifier.fillMaxSize()) {
+        // 1. Заголовок
+        Text(
+            text = "Города",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            textAlign = TextAlign.Center
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            itemsIndexed(cities, key = { _, city -> city.id }) { index, city ->
+                val isDragging = draggedItemIndex == index
 
-            CityRow(
-                city = city,
-                isDragging = isDragging,
-                onDragStart = { draggedItemIndex = index },
-                onMove = { targetIndex ->
-                    draggedItemIndex?.let { fromIndex ->
-                        if (fromIndex != targetIndex) {
-                            viewModel.moveItem(fromIndex, targetIndex)
-                            draggedItemIndex = targetIndex
+                CityRow(
+                    city = city,
+                    isDragging = isDragging,
+                    onDragStart = { draggedItemIndex = index },
+                    onMove = { targetIndex ->
+                        draggedItemIndex?.let { fromIndex ->
+                            if (fromIndex != targetIndex) {
+                                viewModel.moveItem(fromIndex, targetIndex)
+                                draggedItemIndex = targetIndex
+                            }
                         }
-                    }
-                },
-                onDragEnd = { draggedItemIndex = null }
-            )
-
-            if (index < cities.lastIndex) {
-                Divider(
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-                    thickness = 1.dp
+                    },
+                    onDragEnd = { draggedItemIndex = null }
                 )
+
+                if (index < cities.lastIndex) {
+                    Divider(
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+                        thickness = 1.dp
+                    )
+                }
             }
         }
     }
+
 }
 
 @Composable
