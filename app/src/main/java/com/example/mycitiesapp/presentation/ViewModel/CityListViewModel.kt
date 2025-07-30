@@ -3,7 +3,7 @@ package com.example.mycitiesapp.presentation.ViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mycitiesapp.domain.model.City
-import com.example.mycitiesapp.domain.store.SelectedListStore
+import com.example.mycitiesapp.domain.repository.SelectedListStore
 import com.example.mycitiesapp.domain.usecase.GetCitiesByListIdUseCase
 import com.example.mycitiesapp.domain.usecase.SaveCitiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

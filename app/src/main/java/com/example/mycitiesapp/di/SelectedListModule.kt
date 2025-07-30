@@ -1,7 +1,7 @@
 package com.example.mycitiesapp.di
 
-import com.example.mycitiesapp.data.store.SelectedListStoreImpl
-import com.example.mycitiesapp.domain.store.SelectedListStore
+import com.example.mycitiesapp.data.repository.SelectedListStoreImpl
+import com.example.mycitiesapp.domain.repository.SelectedListStore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

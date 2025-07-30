@@ -1,4 +1,4 @@
-package com.example.mycitiesapp.domain.store
+package com.example.mycitiesapp.domain.repository
 
 import kotlinx.coroutines.flow.StateFlow
 

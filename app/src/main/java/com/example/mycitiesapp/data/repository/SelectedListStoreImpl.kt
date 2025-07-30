@@ -1,6 +1,6 @@
-package com.example.mycitiesapp.data.store
+package com.example.mycitiesapp.data.repository
 
-import com.example.mycitiesapp.domain.store.SelectedListStore
+import com.example.mycitiesapp.domain.repository.SelectedListStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
