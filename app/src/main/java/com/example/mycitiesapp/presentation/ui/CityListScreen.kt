@@ -35,7 +35,6 @@ fun CityListScreen(
     var draggedItemIndex by remember { mutableStateOf<Int?>(null) }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // 1. Заголовок
         Text(
             text = "Города",
             style = MaterialTheme.typography.titleLarge,
@@ -49,7 +48,8 @@ fun CityListScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            itemsIndexed(cities, key = { _, city -> city.id }) { index, city ->
+            itemsIndexed(cities, key = { _, city -> city.id })
+                { index, city ->
                 val isDragging = draggedItemIndex == index
 
                 CityRow(

@@ -40,12 +40,15 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.12"
+        kotlinCompilerExtensionVersion = libs.versions.composeBom.get()
     }
 }
 
 dependencies {
     implementation(libs.androidx.foundation)
+    implementation(libs.androidx.foundation.layout)
+
+
 
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.navigation.compose)
@@ -62,15 +65,18 @@ dependencies {
     implementation(libs.accompanist.pager.indicators)
     implementation(libs.androidx.material.icons.extended)
 
-
     implementation(libs.androidx.foundation) // или версия из вашего BOM
-
-
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.foundation)
+
+    implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
+
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.animation)
+
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
